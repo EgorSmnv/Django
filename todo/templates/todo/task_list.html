@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p><a href="{% url 'todo:task_create' %}">Создать задачу</a></p> 
+{% for task in object_list %}
+<div class="task">
+    <h1><a href="{{ task.get_absolute_url }}">{{ task.title }}</a></h1>
+    <p>Время создания: {{ task.time_create }} </p>
+    <p>Время окончания: {{ task.time_finish }} </p>
+</div>
+{% endfor %}
+</body>
+</html>

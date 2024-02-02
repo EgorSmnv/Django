@@ -1,0 +1,52 @@
+{% load static  %}
+{% load shoptags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'shop/css/styles.css' %}" rel="stylesheet"/>
+</head>
+<body>
+<ul>
+    <li><a href="{% url 'home' %}">Главная страница</a></li>
+    {% for m in mainmenu %}
+    <li class="last">
+        <a href="{% url m.url_name %}">{{ m.title }}</a>
+    </li>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <li class="last"> <a href="{% url 'users:profile' %}">{{ user.username }} </a>| <form method="post" action="{% url 'users:logout' %}">
+                                                {% csrf_token %}
+                                                <button type="submit">Выйти</button>
+                                                </form>
+    {% else %}
+    <li class="last"><a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}">Регистрация</a></li>
+    {% endif %}
+</ul>
+<table border=0 cellpadding="0" cellspacing="0">
+    <tr>
+        <td>
+            <ul>
+                {% if cat_selected == 0 %}
+                <li>Все категории</li>
+                {% else %}
+                <li><a href="{% url 'home'%}">Все категории</a></li>
+                {% endif %}
+                {% show_categories cat_selected %}
+
+                <li>{% show_all_tags %}</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+{% block content %}
+{% endblock %}
+
+{% block navigation %}
+{% endblock %}
+
+
+</body>
+</html>
